@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Kubernetes Learning Note (2) -- Installation | Alknow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Kubernetes" />
+  
+  
+  
+  
+  <meta name="description" content="本文主要介绍Minikube的安装过程。">
+<meta name="keywords" content="Kubernetes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes Learning Note (2) -- Installation">
+<meta property="og:url" content="http://alknow.github.io/2017/07/11/Kubernetes-Learning-Note-2-Installation/index.html">
+<meta property="og:site_name" content="Alknow">
+<meta property="og:description" content="本文主要介绍Minikube的安装过程。">
+<meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/vKCSk5E2ABNLv7C3vvLA0cvbXb6gQorKUjLtezWX.jpg">
+<meta property="og:updated_time" content="2017-07-11T14:40:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kubernetes Learning Note (2) -- Installation">
+<meta name="twitter:description" content="本文主要介绍Minikube的安装过程。">
+<meta name="twitter:image" content="http://ac-HSNl7zbI.clouddn.com/vKCSk5E2ABNLv7C3vvLA0cvbXb6gQorKUjLtezWX.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Alknow" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+  <link rel="stylesheet" href="/css/fashion.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner" 
+   >
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="Alknow" rel="home"> Alknow </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">Please call me Lucas.</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Kubernetes-Learning-Note-2-Installation" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="http://ac-HSNl7zbI.clouddn.com/vKCSk5E2ABNLv7C3vvLA0cvbXb6gQorKUjLtezWX.jpg" rel="gallery_cj4zmsw170002sx9bam4h32zy">
+        <img src="http://ac-HSNl7zbI.clouddn.com/vKCSk5E2ABNLv7C3vvLA0cvbXb6gQorKUjLtezWX.jpg" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Kubernetes Learning Note (2) -- Installation
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/07/11/Kubernetes-Learning-Note-2-Installation/" class="article-date">
+	  <time datetime="2017-07-11T13:45:36.000Z" itemprop="datePublished">July 11, 2017</time>
+	</a>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Tutorial/">Tutorial</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文主要介绍Minikube的安装过程。<br><a id="more"></a></p>
+<h1 id="Kubernetes-Installation"><a href="#Kubernetes-Installation" class="headerlink" title="Kubernetes Installation"></a>Kubernetes Installation</h1><h2 id="Minikube"><a href="#Minikube" class="headerlink" title="Minikube"></a>Minikube</h2><h3 id="Linux-安装-（Ubuntu-16-04）"><a href="#Linux-安装-（Ubuntu-16-04）" class="headerlink" title="Linux 安装 （Ubuntu 16.04）"></a>Linux 安装 （Ubuntu 16.04）</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> install virtualbox</div><div class="line"><span class="meta">$</span> sudo apt-get install virtualbox</div><div class="line"><span class="meta"></span></div><div class="line"># install minikube</div><div class="line"><span class="meta">$</span> curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.20.0/minikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/local/bin/</div><div class="line"><span class="meta"></span></div><div class="line"># start minikube</div><div class="line"><span class="meta">$</span> minikube start</div><div class="line">Starting local Kubernetes v1.6.4 cluster...</div><div class="line">Starting VM...</div><div class="line">Moving files into cluster...</div><div class="line">Setting up certs...</div><div class="line">Starting cluster components...</div><div class="line">Connecting to cluster...</div><div class="line">Setting up kubeconfig...</div><div class="line">Kubectl is now configured to use the cluster.</div><div class="line"><span class="meta"></span></div><div class="line"># check the status</div><div class="line"><span class="meta">$</span> minikube status</div><div class="line">minikube: Running</div><div class="line">localkube: Running</div><div class="line">kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100</div><div class="line"><span class="meta"></span></div><div class="line"># stop minukube</div><div class="line"><span class="meta">$</span> minikube stop</div><div class="line">Stopping local Kubernetes cluster...</div><div class="line">Machine stopped.</div></pre></td></tr></table></figure>
+<h3 id="macOS-安装"><a href="#macOS-安装" class="headerlink" title="macOS 安装"></a>macOS 安装</h3><p>与Linux上的安装步骤相同。</p>
+<h2 id="Accessing-Minikube"><a href="#Accessing-Minikube" class="headerlink" title="Accessing Minikube"></a>Accessing Minikube</h2><p>三种方法访问<strong>minikube</strong></p>
+<ul>
+<li>CLI： kubectl是Kubernetes的命令行程序。</li>
+<li>GUI</li>
+<li>API</li>
+</ul>
+<h3 id="CLI-Accessing"><a href="#CLI-Accessing" class="headerlink" title="CLI Accessing"></a>CLI Accessing</h3><p><strong>kubectl</strong>的配置文件在<code>~/.kube/config</code>下，可以通过一下命令查看配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> kubectl config view</div><div class="line">apiVersion: v1</div><div class="line">clusters:</div><div class="line">- cluster:</div><div class="line">    certificate-authority: /Users/shengrulee/.minikube/ca.crt</div><div class="line">    server: https://192.168.99.100:8443</div><div class="line">  name: minikube</div><div class="line">contexts:</div><div class="line">- context:</div><div class="line">    cluster: minikube</div><div class="line">    user: minikube</div><div class="line">  name: minikube</div><div class="line">current-context: minikube</div><div class="line">kind: Config</div><div class="line">preferences: &#123;&#125;</div><div class="line">users:</div><div class="line">- name: minikube</div><div class="line">  user:</div><div class="line">    client-certificate: /Users/shengrulee/.minikube/apiserver.crt</div><div class="line">    client-key: /Users/shengrulee/.minikube/apiserver.key</div></pre></td></tr></table></figure>
+<p>查看minikube cluster信息的命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> kubectl cluster-info</div><div class="line">Kubernetes master is running at https://192.168.99.100:8443</div><div class="line"></div><div class="line">To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.</div></pre></td></tr></table></figure>
+<h3 id="GUI-Accessing"><a href="#GUI-Accessing" class="headerlink" title="GUI Accessing"></a>GUI Accessing</h3><p>启动Kubernetes Dashboard：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> minikube dashboard</div></pre></td></tr></table></figure>
+<p><strong>注意</strong></p>
+<p>启动时总是不成功，显示如下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Could not find finalized endpoint being pointed to by kubernetes-dashboard: Error validating service: Error getting service kubernetes-dashboard: services &quot;kubernetes-dashboard&quot; not found</div></pre></td></tr></table></figure>
+<p>后来使用如下命令修复：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl create -f https://rawgit.com/kubernetes/dashboard/master/src/deploy/kubernetes-dashboard.yaml</div></pre></td></tr></table></figure>
+<p>启动后画面如下，还是挺酷炫的，跟GCP的界面一样。</p>
+<p><img src="http://ac-HSNl7zbI.clouddn.com/vKCSk5E2ABNLv7C3vvLA0cvbXb6gQorKUjLtezWX.jpg" alt=""></p>
+<p>使用<strong>kubectl proxy</strong>命令配置代理，可以使得GUI通过<code>http://localhost:8001/ui</code> 地址访问，并且可以使得认证Master node上的API Server。</p>
+<h3 id="API-Accessing"><a href="#API-Accessing" class="headerlink" title="API Accessing"></a>API Accessing</h3><p>当配置好代理后，可以功能通过 <a href="http://localhost:8001" target="_blank" rel="external">http://localhost:8001</a> 来请求API endpoints.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> curl http://localhost:8001/</div><div class="line">&#123;</div><div class="line">  "paths": [</div><div class="line">    "/api",</div><div class="line">    "/api/v1",</div><div class="line">    "/apis",</div><div class="line">    "/apis/apps",</div><div class="line">    ......</div><div class="line">    ......</div><div class="line">    "/logs",</div><div class="line">    "/metrics",</div><div class="line">    "/swaggerapi/",</div><div class="line">    "/ui/",</div><div class="line">    "/version"</div><div class="line">  ]</div><div class="line">&#125;%</div></pre></td></tr></table></figure>
+<p>如果不配置<strong>kubectl proxy</strong>，还可以通过<strong>Kubectl</strong>获得一个<strong>Bearer Token</strong>调用API。<strong>Bearer Token</strong>是由master node上的API server的认证服务器产生。使用方法如下(没有尝试)：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> Get the token</div><div class="line"><span class="meta">$</span> TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t')</div><div class="line"><span class="meta"></span></div><div class="line"># Get the API Server endpoint</div><div class="line"><span class="meta">$</span> APISERVER=$(kubectl config view | grep https | cut -f 2- -d ":" | tr -d " ")</div><div class="line"><span class="meta"></span></div><div class="line"># Access the API Server using the curl command, as shown below</div><div class="line"><span class="meta">$</span>  curl $APISERVER --header "Authorization: Bearer $TOKEN" --insecure</div><div class="line">&#123;</div><div class="line"> "paths": [</div><div class="line">   "/api",</div><div class="line">   "/api/v1",</div><div class="line">   "/apis",</div><div class="line">   "/apis/apps",</div><div class="line">   ......</div><div class="line">   ......</div><div class="line">   "/logs",</div><div class="line">   "/metrics",</div><div class="line">   "/swaggerapi/",</div><div class="line">   "/ui/",</div><div class="line">   "/version"</div><div class="line"> ]</div><div class="line">&#125;%</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Tutorial/">Tutorial</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/">Kubernetes</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yODAyOS80NjA2">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/11/Kubernetes-Learning-Note-1-Architecture/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Kubernetes Learning Note (1) -- Architecture</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-Installation"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes Installation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Minikube"><span class="nav-number">1.1.</span> <span class="nav-text">Minikube</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-安装-（Ubuntu-16-04）"><span class="nav-number">1.1.1.</span> <span class="nav-text">Linux 安装 （Ubuntu 16.04）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#macOS-安装"><span class="nav-number">1.1.2.</span> <span class="nav-text">macOS 安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Accessing-Minikube"><span class="nav-number">1.2.</span> <span class="nav-text">Accessing Minikube</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CLI-Accessing"><span class="nav-number">1.2.1.</span> <span class="nav-text">CLI Accessing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GUI-Accessing"><span class="nav-number">1.2.2.</span> <span class="nav-text">GUI Accessing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API-Accessing"><span class="nav-number">1.2.3.</span> <span class="nav-text">API Accessing</span></a></li></ol></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2017 Alknow All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>
