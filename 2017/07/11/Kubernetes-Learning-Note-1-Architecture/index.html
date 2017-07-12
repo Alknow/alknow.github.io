@@ -11,18 +11,18 @@
   
   
   
-  <meta name="description" content="基于edX上的Kubernetes课程的学习笔记。 课程页面：https://courses.edx.org/courses/course-v1:LinuxFoundationX+LFS158x+2T2017/">
+  <meta name="description" content="edX Kubernetes课程的学习笔记。">
 <meta name="keywords" content="Kubernetes">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kubernetes Learning Note (1) -- Architecture">
 <meta property="og:url" content="http://alknow.github.io/2017/07/11/Kubernetes-Learning-Note-1-Architecture/index.html">
 <meta property="og:site_name" content="Alknow">
-<meta property="og:description" content="基于edX上的Kubernetes课程的学习笔记。 课程页面：https://courses.edx.org/courses/course-v1:LinuxFoundationX+LFS158x+2T2017/">
+<meta property="og:description" content="edX Kubernetes课程的学习笔记。">
 <meta property="og:image" content="http://ac-HSNl7zbI.clouddn.com/4kHG7PlDhmO3uOhFgFQiB99HdmmHUpizv3BfW0SU.jpg">
-<meta property="og:updated_time" content="2017-07-11T14:38:59.000Z">
+<meta property="og:updated_time" content="2017-07-11T15:09:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes Learning Note (1) -- Architecture">
-<meta name="twitter:description" content="基于edX上的Kubernetes课程的学习笔记。 课程页面：https://courses.edx.org/courses/course-v1:LinuxFoundationX+LFS158x+2T2017/">
+<meta name="twitter:description" content="edX Kubernetes课程的学习笔记。">
 <meta name="twitter:image" content="http://ac-HSNl7zbI.clouddn.com/4kHG7PlDhmO3uOhFgFQiB99HdmmHUpizv3BfW0SU.jpg">
   
     <link rel="alternate" href="/atom.xml" title="Alknow" type="application/atom+xml">
@@ -114,7 +114,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="http://ac-HSNl7zbI.clouddn.com/4kHG7PlDhmO3uOhFgFQiB99HdmmHUpizv3BfW0SU.jpg" rel="gallery_cj4zmsw130001sx9b2ygp2lc5">
+      <a class="article-gallery-img fancybox" href="http://ac-HSNl7zbI.clouddn.com/4kHG7PlDhmO3uOhFgFQiB99HdmmHUpizv3BfW0SU.jpg" rel="gallery_cj514ohz40000pz9bei8gi8zt">
         <img src="http://ac-HSNl7zbI.clouddn.com/4kHG7PlDhmO3uOhFgFQiB99HdmmHUpizv3BfW0SU.jpg" itemprop="image">
       </a>
     
@@ -146,8 +146,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>基于edX上的Kubernetes课程的学习笔记。</p>
-<p>课程页面：<a href="https://courses.edx.org/courses/course-v1:LinuxFoundationX+LFS158x+2T2017/" target="_blank" rel="external">https://courses.edx.org/courses/course-v1:LinuxFoundationX+LFS158x+2T2017/</a></p>
+        <p>edX <a href="https://courses.edx.org/courses/course-v1:LinuxFoundationX+LFS158x+2T2017/" target="_blank" rel="external">Kubernetes课程</a>的学习笔记。</p>
 <a id="more"></a>
 <h1 id="What-is-Kubernetes"><a href="#What-is-Kubernetes" class="headerlink" title="What is Kubernetes"></a>What is Kubernetes</h1><h2 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h2><blockquote>
 <p>“Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications.”</p>
@@ -169,7 +168,8 @@
 <li>Storage orchestration</li>
 <li>Batch execution</li>
 </ul>
-<h1 id="Kubernetes-Architecture"><a href="#Kubernetes-Architecture" class="headerlink" title="Kubernetes Architecture"></a>Kubernetes Architecture</h1><h2 id="Overall-Architecture"><a href="#Overall-Architecture" class="headerlink" title="Overall Architecture"></a>Overall Architecture</h2><ul>
+<h1 id="Kubernetes-Architecture"><a href="#Kubernetes-Architecture" class="headerlink" title="Kubernetes Architecture"></a>Kubernetes Architecture</h1><h2 id="Overall-Architecture"><a href="#Overall-Architecture" class="headerlink" title="Overall Architecture"></a>Overall Architecture</h2><p>Kubernetes主要包括以下组件：</p>
+<ul>
 <li>One or more Master Nodes</li>
 <li>One or more Worker Nodes</li>
 <li>Distributed key-value store, like <strong>etcd</strong>.</li>
@@ -183,7 +183,7 @@
 <li>API Server</li>
 <li>Scheduler</li>
 <li>Controller Manager</li>
-<li>etcd</li>
+<li>etcd: 分布式key-value存储模块。</li>
 </ul>
 <h2 id="Work-Node"><a href="#Work-Node" class="headerlink" title="Work Node"></a>Work Node</h2><p><img src="http://ac-HSNl7zbI.clouddn.com/Y9jrf9Pq6XmbzlYAqNLhG6YbT8qgQg6f65odpapl.jpg" alt=""></p>
 

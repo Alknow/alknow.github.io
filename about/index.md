@@ -1,7 +1,7 @@
 ---
-title: Tags
+title: About
 date: 2017-07-11 12:12:45
-layout: "tags"
+layout: "about"
 comments: false
 ---
 
