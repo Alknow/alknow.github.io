@@ -133,8 +133,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         
-
-          
+          <div class="entry-thumbnail">
+            <a href="/2017/07/12/p4-bmv2-start/"><img src="http://7xnvn2.com1.z0.glb.clouddn.com/gaoyuanyuan_sousuo.jpg" class="attachment-thumb-featured size-thumb-featured wp-post-image" alt=""></a>
+          </div>
           <div class="entry-summary">
           bmv2指的是P4软件交换机(也叫behavior model)第二版，相比较原来的版本p4c-behavioral，其不用在每次修改P4程序后重新生成C++代码，这意味着可以更简便快捷的修改和测试P4程序。并且bmv2是设备无关的，不像原来的p4c-behavioral的交换机抽象模型只包含ingress和egress两条pipeline，bmv2可以用于表示多种交换机结构。
 本文主要介绍bmv2的安装流程和简要的使用方法，让读者可以快速搭建起P4程序的运行环境，略过了一些非必要步骤(如debug模式和mininet集成)，bmv2的Github仓库README中有更详细的说明。
@@ -346,7 +347,10 @@
           <li class="clearfix">
 
             
-              <div class="widget-entry-summary" style="margin: 0;">
+              <div class="widget-entry-thumbnail">
+                <a href="/2017/07/12/p4-bmv2-start/" title=""><img width="50" height="50" src="http://7xnvn2.com1.z0.glb.clouddn.com/gaoyuanyuan_sousuo.jpg" class="attachment-thumb-small size-thumb-small wp-post-image" alt="preview-16" title=""></a>
+              </div>
+              <div class="widget-entry-summary">
             
 
               <h6 style="margin: 0;"><a href="/2017/07/12/p4-bmv2-start/">P4 Software Switch (bmv2) 安装和简单使用</a></h6>
