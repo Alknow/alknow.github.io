@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>P4 Exercise -- Source Routing | Alknow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="P4" />
+  
+  
+  
+  
+  <meta name="description" content="这个demo是在SIGCOMM 2015 P4 Tutorial的一个练习。是让用户使用P4实现一个非常简单的称为EasyRoute的源路由转发协议。本文假设您已经完成P4软件交换机的安装。">
+<meta name="keywords" content="P4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="P4 Exercise -- Source Routing">
+<meta property="og:url" content="http://alknow.github.io/2017/07/13/p4-source-routing/index.html">
+<meta property="og:site_name" content="Alknow">
+<meta property="og:description" content="这个demo是在SIGCOMM 2015 P4 Tutorial的一个练习。是让用户使用P4实现一个非常简单的称为EasyRoute的源路由转发协议。本文假设您已经完成P4软件交换机的安装。">
+<meta property="og:image" content="http://7xnvn2.com1.z0.glb.clouddn.com/QQ20170713-191151@2x.png">
+<meta property="og:updated_time" content="2017-07-14T01:49:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="P4 Exercise -- Source Routing">
+<meta name="twitter:description" content="这个demo是在SIGCOMM 2015 P4 Tutorial的一个练习。是让用户使用P4实现一个非常简单的称为EasyRoute的源路由转发协议。本文假设您已经完成P4软件交换机的安装。">
+<meta name="twitter:image" content="http://7xnvn2.com1.z0.glb.clouddn.com/QQ20170713-191151@2x.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Alknow" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+  <link rel="stylesheet" href="/css/fashion.css" >
+  <link rel="stylesheet" href="/css/glyphs.css" >
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src="">
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src="">
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg,https://images.unsplash.com/photo-1464306208223-e0b4495a5553?dpr=1&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=&bg=".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" 
+   style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);"  >
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="Alknow" rel="home"> Alknow </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">Please call me Lucas.</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-p4-source-routing" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      P4 Exercise -- Source Routing
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/07/13/p4-source-routing/" class="article-date">
+	  <time datetime="2017-07-13T11:09:47.000Z" itemprop="datePublished">July 13, 2017</time>
+	</a>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Tutorial/">Tutorial</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这个demo是在SIGCOMM 2015 P4 Tutorial的一个练习。是让用户使用P4实现一个非常简单的称为<strong>EasyRoute</strong>的源路由转发协议。本文假设您已经完成<a href="https://alknow.github.io/2017/07/12/p4-bmv2-start/">P4软件交换机的安装</a>。</p>
+<a id="more"></a>
+<p>代码仓库：<a href="https://github.com/p4lang/tutorials/tree/master/SIGCOMM_2015/source_routing" target="_blank" rel="external">https://github.com/p4lang/tutorials/tree/master/SIGCOMM_2015/source_routing</a></p>
+<p>EasyRoute的数据包结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">preamble (8 bytes) | num_valid (4 bytes) | port_1 (1 byte) | port_2 (1 byte) | ... | port_n (1 byte) | payload</div></pre></td></tr></table></figure>
+<p>各字段的意义如下：</p>
+<ul>
+<li><strong>preamble</strong>: 没有实际意义，主要用于填充，估计还能和后面num_valid字段一起组成12Bytes，让网卡以为是dst和src MAC地址。</li>
+<li><strong>num_valid</strong>: 表示数据包的剩余的跳数。</li>
+<li><strong>port_X</strong>: 表示交换机出口的编号，在每一跳上只有最外层的port字段有效。</li>
+</ul>
+<p>其仓库README中有对source_routing运行原理详细的解释。</p>
+<p>本练习是用<strong>EasyRoute</strong>协议去发送一段文本消息。发送端和接收端程序已经提供，直接使用即可。Mininet网络拓扑也已经写好。<strong>source_routing.p4</strong>的代码框架已经给出，需要自己动手写<strong>header</strong>, <strong>parser</strong>，<strong>action</strong>和<strong>table</strong>的定义。</p>
+<ul>
+<li><strong>source_routing.p4</strong>：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">Copyright 2013-present Barefoot Networks, Inc.</div><div class="line">Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</div><div class="line">you may not use this file except in compliance with the License.</div><div class="line">You may obtain a copy of the License at</div><div class="line">    http://www.apache.org/licenses/LICENSE-2.0</div><div class="line">Unless required by applicable law or agreed to in writing, software</div><div class="line">distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</div><div class="line">WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</div><div class="line">See the License for the specific language governing permissions and</div><div class="line">limitations under the License.</div><div class="line">*/</div><div class="line"></div><div class="line">// TODO: define headers &amp; header instances</div><div class="line">header_type easy_route_t &#123;</div><div class="line">    fields &#123;</div><div class="line">        preamble: 64;</div><div class="line">        num_valid: 32;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//port header</div><div class="line">header_type port_list_t&#123;</div><div class="line">    fields&#123;</div><div class="line">        port: 8;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">header easy_route_t easy_route;</div><div class="line">header port_list_t port_list;</div><div class="line"></div><div class="line">parser start &#123;</div><div class="line">    // TODO</div><div class="line">    return parser_easy_route;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// TODO: define parser states</div><div class="line">parser parser_easy_route&#123;</div><div class="line">    extract(easy_route);</div><div class="line">    extract(port_list);</div><div class="line">    return ingress;</div><div class="line">&#125;</div><div class="line"></div><div class="line">action _drop() &#123;</div><div class="line">    drop();</div><div class="line">&#125;</div><div class="line"></div><div class="line">action route() &#123;</div><div class="line">    modify_field(standard_metadata.egress_spec, port_list.port);</div><div class="line">    // TODO: update your header</div><div class="line">    remove_header(port_list);</div><div class="line">    add_to_field(easy_route.num_valid, -1);</div><div class="line">&#125;</div><div class="line"></div><div class="line">action last_hop_route() &#123;</div><div class="line">    modify_field(standard_metadata.egress_spec, port_list.port);</div><div class="line">    remove_header(port_list);</div><div class="line">    remove_header(easy_route);</div><div class="line">&#125;</div><div class="line"></div><div class="line">table send_frame&#123;</div><div class="line">    reads&#123;</div><div class="line">        easy_route.num_valid: exact;</div><div class="line">    &#125;</div><div class="line">    actions &#123;</div><div class="line">        route;</div><div class="line">        last_hop_route;</div><div class="line">        _drop;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">control ingress &#123;</div><div class="line">    // TODO</div><div class="line">    apply(send_frame);</div><div class="line">&#125;</div><div class="line"></div><div class="line">control egress &#123;</div><div class="line">    // leave empty</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>另外还要在commands.txt中填写需要下发代码中send_frame表中的默认执行动作和entry。</p>
+<ul>
+<li><strong>commands.txt</strong>:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">table_set_default send_frame route</div><div class="line">table_add send_frame last_hop_route 0 1</div></pre></td></tr></table></figure>
+<p>运行<strong>run_demo.sh</strong>脚本会编译<strong>source_routing.p4</strong>代码并且创建一个Mininet网络运行源路由协议。</p>
+<p>在Mininet CLI中打开h1和h3上的terminal，分别运行发送端和接受端程序：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mininet&gt; xterm h1</div><div class="line">mininet&gt; xterm h3</div><div class="line"></div><div class="line"><span class="comment"># The above command will open new terminals on h1 and h3</span></div><div class="line"><span class="comment"># In h1 terminal</span></div><div class="line">./send.py h1 h3</div><div class="line"><span class="comment"># In h3 terminal</span></div><div class="line">./receive.py</div></pre></td></tr></table></figure>
+<p><strong>send.py</strong>会自动计算路径并封装在你所输入的文本消息前。最终的效果如下：</p>
+<p><img src="http://7xnvn2.com1.z0.glb.clouddn.com/QQ20170713-191151@2x.png" alt=""></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Tutorial/">Tutorial</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/P4/">P4</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yODAyOS80NjA2">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/12/p4-bmv2-start/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">P4 Software Switch (bmv2) 安装和简单使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav">None</ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2017 Alknow All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>
