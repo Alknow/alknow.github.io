@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Alknow">
 <meta property="og:description" content="bmv2指的是P4软件交换机(也叫behavior model)第二版，相比较原来的版本p4c-behavioral，其不用在每次修改P4程序后重新生成C++代码，这意味着可以更简便快捷的修改和测试P4程序。并且bmv2是设备无关的，不像原来的p4c-behavioral的交换机抽象模型只包含ingress和egress两条pipeline，bmv2可以用于表示多种交换机结构。 本文主要介绍bmv">
 <meta property="og:image" content="http://7xnvn2.com1.z0.glb.clouddn.com/gaoyuanyuan_sousuo.jpg">
-<meta property="og:updated_time" content="2017-07-13T00:40:56.000Z">
+<meta property="og:updated_time" content="2017-07-16T01:42:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="P4 Software Switch (bmv2) 安装和简单使用">
 <meta name="twitter:description" content="bmv2指的是P4软件交换机(也叫behavior model)第二版，相比较原来的版本p4c-behavioral，其不用在每次修改P4程序后重新生成C++代码，这意味着可以更简便快捷的修改和测试P4程序。并且bmv2是设备无关的，不像原来的p4c-behavioral的交换机抽象模型只包含ingress和egress两条pipeline，bmv2可以用于表示多种交换机结构。 本文主要介绍bmv">
@@ -114,7 +114,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="http://7xnvn2.com1.z0.glb.clouddn.com/gaoyuanyuan_sousuo.jpg" rel="gallery_cj538fi0b0000c89bx3wv1dzy">
+      <a class="article-gallery-img fancybox" href="http://7xnvn2.com1.z0.glb.clouddn.com/gaoyuanyuan_sousuo.jpg" rel="gallery_cj56249ag0006ak9bslcg6dpc">
         <img src="http://7xnvn2.com1.z0.glb.clouddn.com/gaoyuanyuan_sousuo.jpg" itemprop="image">
       </a>
     
@@ -165,7 +165,7 @@
 <p>由于bmv2并不直接根据P4代码生成所定义的交换机转发行为，而是根据P4代码生成的JSON文件运行，所以还需要一个将P4代码生成JSON文件的工具<strong>p4c-bm</strong>。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Download p4c-bm</span></div><div class="line">git <span class="built_in">clone</span> https://github.com/p4lang/p4c-bm.git</div><div class="line"><span class="built_in">cd</span> p4c-bm</div><div class="line"><span class="comment"># Install the requirements</span></div><div class="line">sudo pip install -r requirements.txt</div><div class="line"><span class="comment"># Install p4c-bm</span></div><div class="line">sudo python setup.py install</div></pre></td></tr></table></figure>
 <h2 id="运行你的P4程序！"><a href="#运行你的P4程序！" class="headerlink" title="运行你的P4程序！"></a>运行你的P4程序！</h2><p>首先生成JSON文件。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">p4c-bm --json &lt;输出的JSON文件名&gt; &lt;输入的P4文件名&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">p4c-bmv2 --json &lt;输出的JSON文件名&gt; &lt;输入的P4文件名&gt;</div></pre></td></tr></table></figure>
 <p>使用<strong>simple_switch</strong>运行P4程序所定义的交换机行为。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> behavioral-model/targets/simple_switch</div><div class="line">sudo ./simple_switch -i 0@&lt;iface0&gt; -i 1@&lt;iface1&gt; &lt;path to JSON file&gt;</div></pre></td></tr></table></figure>
 <p><code>-i</code>后面跟需要添加到交换机的网卡名，<code>@</code>前的数字表示对应网卡的编号。</p>
